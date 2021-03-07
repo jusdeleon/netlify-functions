@@ -2,7 +2,15 @@ const response = require('./utils/response');
 const Validator = require('validatorjs');
 
 exports.handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*'
+      }
+    };
+  } else if (event.httpMethod !== 'POST') {
     return response({
       message: `The ${event.httpMethod} method is not supported for this route. Supported methods: POST.`
     }, 405);
